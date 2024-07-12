@@ -1,10 +1,14 @@
 import puppeteer from 'puppeteer';
+import getRows from '../sheets/getRows';
+import addRows from '../sheets/addRow';
 // Or import puppeteer from 'puppeteer-core';
 
 async function getInfo(){
+    await addRows()
+    console.log((await getRows()).data.values)
 
     // Launch the browser and open a new blank page
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     // Navigate the page to a URL.
