@@ -1,12 +1,12 @@
 import puppeteer from 'puppeteer';
-import getRows from '../sheets/getRows';
-import addRows from '../sheets/addRow';
+import sendMessage from './telegram/sendMessage';
+import addRows from './sheets/addRow';
 // Or import puppeteer from 'puppeteer-core';
 
 async function getInfo(){
-    await addRows()
-    console.log((await getRows()).data.values)
-
+    addRows("C5", "Aqui estou!")
+    sendMessage("Hello, World!")
+    
     // Launch the browser and open a new blank page
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
