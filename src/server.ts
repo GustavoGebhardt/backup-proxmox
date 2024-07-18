@@ -76,19 +76,50 @@ async function setBackup(dateFuso: string) {
 }
 
 async function checkBackup(dateFuso: string){
-    const planilha = (await getRows()).data.values
-    let toDay: number = 0
-    let oneDaysAgo: number = 0
-    let twoDaysAgo: number = 0
+    const backup = await getBackup()
+    let backupOnly: any[] = []
 
-    for(let i = 0; i < planilha!.length; i++){
-        if(planilha![i][0] == dateFuso.split(",")[0]){
-            toDay = i
-            oneDaysAgo = i-1
-            twoDaysAgo = i-2
+    let toDay: number = parseInt(dateFuso.split("/")[0])
+    let oneDayAgo: number = parseInt(dateFuso.split("/")[0])-1
+    let twoDaysAgo: number = parseInt(dateFuso.split("/")[0])-2
+
+    let toDayBackup: any[] = []
+    let oneDayAgoBackup: any[] = []
+    let twoDaysAgoBackup: any[] = []
+
+    //Realiza um filtro no retorno da api deixando somente os backups
+    for(let i = 0; i < backup.length; i++){
+        if(backup[i].content == 'backup'){
+            backupOnly.push(backup[i])
         }
     }
-    console.log(planilha![toDay], planilha![oneDaysAgo], planilha![twoDaysAgo])
+
+    //Adiciona o backup no array da sua data de realização
+    for(let i = 0; i < backupOnly.length; i++){
+        if(parseInt(convertForDay(backupOnly[i].ctime)) == toDay){
+            toDayBackup.push(backupOnly[i])
+        }
+        else if(parseInt(convertForDay(backupOnly[i].ctime)) == oneDayAgo){
+            oneDayAgoBackup.push(backupOnly[i])
+        }
+        else if(parseInt(convertForDay(backupOnly[i].ctime)) == twoDaysAgo){
+            twoDaysAgoBackup.push(backupOnly[i])
+        }
+    }
+    console.log(toDayBackup)
+
+    //Valida se os arrays possuem a mesma quantidade de backups
+    if(toDayBackup.length == oneDayAgoBackup.length && oneDayAgoBackup.length == twoDaysAgoBackup.length){
+        for(let i = 0; i < toDayBackup.length; i++){
+            //Valida se os tres backups não possuem o mesmo tamanho 
+            if(toDayBackup[i].size == oneDayAgoBackup[i].size && oneDayAgoBackup[i].size == twoDaysAgoBackup[i].size){
+                sendMessage("ALERTA ⚠️\n" + `"${toDayBackup[i].notes}"` + " está com 3 backups com o mesmo tamanho!" + "\nHorario: " + dateFuso.split(" ")[1] + "\nData: " + dateFuso.split(",")[0])
+            }
+        }
+    } else {
+        //throw new Error("Falha no codigo");
+    }
+    
 }
 
 async function main(){
@@ -97,13 +128,13 @@ async function main(){
     const dateFuso = date.toLocaleString('pt-BR', options);
     console.log(dateFuso)
 
-    if(dateFuso.split(" ")[1].split(":")[0] == "17"){
+    if(dateFuso.split(" ")[1].split(":")[0] == "14"){
         try{
-            setBackup(dateFuso)
-            checkBackup(dateFuso)
+            await setBackup(dateFuso)
+            await checkBackup(dateFuso)
             //throw new Error("Falha no codigo");
         } catch(erro){
-            sendMessage("ERRO ⚠️\n" + erro + "\nHorario: " + dateFuso.split(" ")[1] + "\nData: " + dateFuso.split(",")[0])
+            sendMessage("ERRO ❌\n" + erro + "\nHorario: " + dateFuso.split(" ")[1] + "\nData: " + dateFuso.split(",")[0])
         }
     }
 }
