@@ -10,7 +10,6 @@ function convertForDay(timestamp: number) {
     return day;
 }
 
-
 async function setBackup(dateFuso: string) {
     const backup = await getBackup()
     const planilha = (await getRows()).data.values
