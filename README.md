@@ -11,11 +11,27 @@ Esse projeto foi desenvolvido para suprir uma demanda de verificação de backup
 
 ## Instalação
 
-Descreva como instalar e configurar o projeto localmente. Forneça todos os pré-requisitos necessários, comandos de instalação e configuração.
-
-Exemplo:
+### ------
 
 ```bash
 git clone https://github.com/seu-usuario/seu-projeto.git
 cd seu-projeto
 npm install
+```
+### Variáveis de ambiente
+
+```bash
+nano .env
+```
+
+```bash
+GOOGLE_APPLICATION_CREDENTIALS=
+BOT_TOKEN=
+CHAT_TOKEN=
+PROXMOX_HOST=
+PROXMOX_PORT=
+PROXMOX_USER=
+PROXMOX_PASSWORD=
+PROXMOX_NODE=
+PROXMOX_STORAGE=
+```
