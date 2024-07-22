@@ -1,13 +1,11 @@
 # Automação Backup Proxmox
 
-Esse projeto foi desenvolvido para suprir uma demanda de verificação de backups do proxmox. A extração dos dados ocorre por meio da biblioteca Puppeteer, onde realiza buscas no codigo HTML do servidor Proxmox para pegar as informações dos backups. Em seguida por meio da API do Google Sheets acrecenta os dados á uma planilha e realiza comparações de tamanho com backups anteriores, para verificar se o backup ocoreu corretamente. Caso ocorra algum erro durante o processo, ou a validação identifique que o backup não foi realizado corretamente, um bot do Telegram será acionado e enviará uma mensagem ao usuario por meio da biblioteca Telegraf informando o erro ou falha no backup.
+Esse projeto foi desenvolvido para suprir uma demanda de verificação de backups do proxmox. A extração dos dados ocorre por meio da API fornecida pelo proprio servidor proxmox, para pegar as informações dos backups. Em seguida por meio da API do Google Sheets acrecenta os dados á uma planilha e realiza comparações de tamanho com backups anteriores, para verificar se o backup ocoreu corretamente. Caso ocorra algum erro durante o processo, ou a validação identifique que o backup não foi realizado corretamente, um bot do Telegram será acionado e enviará uma mensagem ao usuario por meio da biblioteca Telegraf informando o erro ou falha no backup.
 
 ## Sumário
 
 - [Instalação](#instalação)
 - [Utilização](#utilização)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## Instalação
 
@@ -46,13 +44,23 @@ PROXMOX_NODE=node-do-proxmox
 PROXMOX_STORAGE=armazenamento-do-proxmox
 ```
 
-### Credenciais do Google Sheets 
+### API Proxmox
 
-Siga as instruções neste [vídeo](URL) para configurar a API do Google Sheets e obter o arquivo de credenciais JSON.
+Navegue até a opção API Tokens no seu servidor proxmox e adicione um novo Token, em seguida entre na aba permições e selecione seu Token. 
+
+Selecionei a opção API Token Permissions e adicione a pirmição de acesso as vm's.
+
+Prencha o "PROXMOX_USER" e o "PROXMOX_PASSWORD" com as informações do usuario da API Token gerada.
+
+### Google Sheets 
+
+Faça uma copia da [planilha](https://docs.google.com/spreadsheets/d/1X9VysCyR4t8l8FSryEkLwbPixvhBE_0wJ9A2KaTDWNM/copy) utilizada pela aplicação.
+
+Siga as instruções neste [vídeo](https://youtu.be/ZjZGczINqe8) para configurar a API do Google Sheets e obter o arquivo de credenciais JSON.
 
 Coloque o caminho para este arquivo na variável de ambiente "GOOGLE_APPLICATION_CREDENTIALS".
 
-### Bot do Telegram
+### Bot Telegram
 
 Crie um bot no Telegram através do @BotFather e obtenha o token do bot.
 
