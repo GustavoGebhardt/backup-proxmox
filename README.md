@@ -12,8 +12,8 @@ Esse projeto foi desenvolvido para suprir uma demanda de verificação de backup
 ### Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-projeto.git
-cd seu-projeto
+git clone https://github.com/GustavoGebhardt/backup-proxmox
+cd backup-proxmox
 ```
 
 ### Instale as dependência
